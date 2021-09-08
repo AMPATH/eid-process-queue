@@ -5,7 +5,7 @@ const start = ()=>{
   console.log('Start Sync process...');
   setInterval(()=>{
     syncAmpathPatients();
-  },30000);
+  },10000);
  
 }
 
