@@ -13,6 +13,7 @@ const syncPatientLabOrders = (patientUuid) =>{
     })
     .catch((error)=>{
       const sycnError = error;
+      console.log('processPatientLabOrders Error:', error);
       addPatientToErrorQueue(patientUuid)
       .then((result)=>{
         resolve(sycnError);
