@@ -1,33 +1,42 @@
-'use strict';
-import { server } from '../../conf/config.mjs';
-import axios from 'axios';
-import moment from 'moment';
+"use strict";
+import { server } from "../../conf/config.mjs";
+import axios from "axios";
+import moment from "moment";
+import qs from "qs";
 
-const processPatientLabOrders =  (patientUuid) => {
-  console.log('processPatientLabOrders :', patientUuid);
+const processPatientLabOrders = (patientUuid) => {
+  return new Promise((resolve, reject) => {
+    console.log("processPatientLabOrders :", patientUuid);
 
-  const url = server.etl.url + 'patient-lab-orders';
-  const data = {
-    'startDate': '2006-01-01',
-    'endDate': moment().format('YYYY-MM-DD'),
-    'patientUuId': patientUuid,
-    'mode': 'batch'
-  }
-  const request = {
-    method: 'GET',
-    url: url,
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Basic ${ server.amrs.auth }`, 
-    },
-    body: JSON.stringify(data)
-  };
+    const url = server.etl.url + "patient-lab-orders";
+    const finalpayload = {
+      startDate: "2006-01-01",
+      endDate: moment().format("YYYY-MM-DD"),
+      patientUuId: patientUuid,
+      mode: "batch",
+    };
 
-  console.log('processPatientLabOrders : request :', request);
+    const request = {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: `Basic ${server.amrs.auth}`,
+      }
+    };
 
-  return axios(request);
-  
+    console.log("processPatientLabOrders : request :", request);
 
+    console.log("processPatientLabOrders : payload :", finalpayload);
+
+    axios.get(url,{headers: request.headers, params : finalpayload})
+      .then((response) => {
+        console.log("response data ", response.data);
+        resolve(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+        reject(error);
+      });
+  });
 };
 
-export { processPatientLabOrders }
+export { processPatientLabOrders };

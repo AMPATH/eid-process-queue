@@ -13,11 +13,9 @@ try{
  const patientUuid = await getPatientFromAmpathQueue();
  console.log('PatientUuid', patientUuid);
  if(patientUuid.length > 0){
-
    await deleteEidPatientLogByUuid(patientUuid);
    await syncPatientLabOrders(patientUuid);
    await deletePatientFromQueue(patientUuid,queueTable);
-
  }
 
  return Promise.resolve('sucess');
