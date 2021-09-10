@@ -2,11 +2,11 @@
 import { processPatientLabOrders } from '../api/etl/patient-lab-orders.mjs';
 import { addPatientToErrorQueue  } from '../services/eid-queue-service.mjs';
 
-const syncPatientLabOrders = (patientUuid) =>{
+const syncPatientLabOrders = (patientUuid,lab) =>{
   console.log('syncPatientLabOrders.. called', patientUuid);
   return new Promise((resolve,reject)=>{
 
-    processPatientLabOrders(patientUuid)
+    processPatientLabOrders(patientUuid,lab)
     .then((result)=>{
       resolve(result);
 

@@ -4,11 +4,13 @@ import axios from "axios";
 import moment from "moment";
 import qs from "qs";
 
-const processPatientLabOrders = (patientUuid) => {
+const processPatientLabOrders = (patientUuid,lab) => {
   return new Promise((resolve, reject) => {
     console.log("processPatientLabOrders :", patientUuid);
 
-    const url = server.etl.url + "patient-lab-orders";
+
+
+    const url = determineLabUrl(lab) + "patient-lab-orders";
     const finalpayload = {
       startDate: "2006-01-01",
       endDate: moment().format("YYYY-MM-DD"),
@@ -38,5 +40,13 @@ const processPatientLabOrders = (patientUuid) => {
       });
   });
 };
+
+const determineLabUrl = (lab)=>{
+  console.log('determineLabUrl',lab);
+ let labUrl = server.etl[lab];
+  console.log('labUrl',labUrl);
+ return labUrl;
+
+}
 
 export { processPatientLabOrders };

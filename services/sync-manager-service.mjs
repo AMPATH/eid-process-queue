@@ -7,6 +7,7 @@ import { queueTables } from '../conf/config.mjs';
 const syncAmpathPatientResults = async ()=>{
 
    const queueTable = queueTables.ampath;
+   const lab = 'ampath';
 
 try{
 
@@ -14,7 +15,7 @@ try{
  console.log('PatientUuid', patientUuid);
  if(patientUuid.length > 0){
    await deleteEidPatientLogByUuid(patientUuid);
-   await syncPatientLabOrders(patientUuid);
+   await syncPatientLabOrders(patientUuid,lab);
    await deletePatientFromQueue(patientUuid,queueTable);
  }
 
@@ -33,14 +34,17 @@ try{
 const syncAlupePatientResults = async ()=>{
 
    const queueTable = queueTables.alupe;
+   const lab = 'alupe';
 
 try{
 
  const patientUuid = await getPatientFromAlupeQueue();
  console.log('PatientUuid', patientUuid);
+ if(patientUuid.length > 0){
  await deleteEidPatientLogByUuid(patientUuid);
- await syncPatientLabOrders(patientUuid);
+ await syncPatientLabOrders(patientUuid,lab);
  await deletePatientFromQueue(patientUuid,queueTable);
+ }
  return Promise.resolve('sucess');
 
 }catch(e){
@@ -53,4 +57,4 @@ try{
 }
 
 
-export { syncAmpathPatientResults }
+export { syncAmpathPatientResults,syncAlupePatientResults }
