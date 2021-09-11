@@ -7,14 +7,22 @@ import moment from "moment";
 
 const start = ()=>{
   console.log('Start Sync process...');
+  Promise.allSettled([syncPatientLabs('ampath'),syncPatientLabs('alupe')])
+  .then((results)=>{
+     console.log('Results :', results);
+  }).catch((error)=>{
+    console.log('Error :',error);
+  });
 
-  syncPatientLabs('ampath');
-  syncPatientLabs('alupe');
   
  
 }
 
+
+
 const syncPatientLabs = (lab)=>{
+  return new Promise((resolve,reject)=>{
+
   console.log(`Sync ${lab} Patients ...`);
   const syncInterval = getSyncSettings(lab);
   console.log('syncInterval',syncInterval);
@@ -30,6 +38,10 @@ const syncPatientLabs = (lab)=>{
    });
 
   },syncInterval);
+
+  resolve(`Started Sync for ${lab}`);
+
+  });
   
 }
 
