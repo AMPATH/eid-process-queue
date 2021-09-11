@@ -31,7 +31,7 @@ const syncPatientLabs = (lab)=>{
     syncPatientResults(lab)
    .then((results)=>{
      console.log('Results', results);
-      syncAmpathPatients();
+     syncPatientLabs(lab);
    })
    .catch((error)=>{
      console.log(error);
