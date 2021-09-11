@@ -1,4 +1,4 @@
-# EID QUEUE PROCESSOR
+# EID Queue Processor
 
 This projet aims to handle patients stored in the lab sync queue.
 It takes the patients from the queue one at a time and sends an api request to another service
@@ -11,6 +11,9 @@ Its only task is to pick patients from the queue, and sync them at predefined in
 3. Create a conf folder in the root directory with config.mjs file with the following configuration
 
 ```js
+
+'use strict'
+
 const db = {
   mysql:{
     "connectionLimit": 2,
@@ -45,6 +48,8 @@ const syncIntervalSettings = {
     offpeakHrSyncInterval: 5000
   }
 }
+
+export { db, server, queueTables, syncIntervalSettings}
 
 ```
 
