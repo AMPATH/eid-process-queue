@@ -1,42 +1,47 @@
 'use strict'
-import { syncAmpathPatientResults,syncAlupePatientResults } from './services/sync-manager-service.mjs';
+import { syncPatientResults } from './services/sync-manager-service.mjs';
+import { SyncSettings } from './syncSettinngs/SyncSettings.mjs';
+import { syncIntervalSettings } from './conf/config.mjs';
+import moment from "moment";
+
 
 const start = ()=>{
   console.log('Start Sync process...');
-  /*
-  setInterval(()=>{
-    syncAmpathPatients();
-  },10000);
 
-  */
-
-  setInterval(()=>{
-    syncAlupePatients();
-   },15000);
+  syncPatientLabs('ampath');
+  syncPatientLabs('alupe');
+  
  
 }
 
-const syncAmpathPatients = ()=>{
-  console.log('Sync Ampath Patients ...');
-   syncAmpathPatientResults()
+const syncPatientLabs = (lab)=>{
+  console.log(`Sync ${lab} Patients ...`);
+  const syncInterval = getSyncSettings(lab);
+  console.log('syncInterval',syncInterval);
+  setTimeout(()=>{
+
+    syncPatientResults(lab)
    .then((results)=>{
      console.log('Results', results);
+      syncAmpathPatients();
    })
    .catch((error)=>{
      console.log(error);
    });
+
+  },syncInterval);
+  
 }
 
-
-const syncAlupePatients = ()=>{
-  console.log('Sync Alupe Patients ...');
-  syncAlupePatientResults()
-   .then((results)=>{
-     console.log('Results', results);
-   })
-   .catch((error)=>{
-     console.log(error);
-   });
+const getSyncSettings = (lab)=>{
+  let syncInterval = 10000;
+  const curTimeInHrs = moment().format('HH');
+  console.log('curTimeInHrs',curTimeInHrs);
+  const labSyncIntervalSettings = syncIntervalSettings[lab];
+  console.log(`${lab}SyncSettings`,labSyncIntervalSettings);
+  const labSyncSettings = new SyncSettings(lab,labSyncIntervalSettings.offpeakHrSyncInterval,labSyncIntervalSettings.peakHrSyncInterval);
+  syncInterval = labSyncSettings.getSyncIntervals(curTimeInHrs);
+  return syncInterval;
 }
 
 

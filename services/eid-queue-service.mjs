@@ -2,7 +2,7 @@
  import { queueTables } from '../conf/config.mjs';
  import { runSqlQuery } from '../utils/sql-runner.mjs';
 
-const getPatientUuidFromQueue = (queueTable) =>{
+export const getPatientUuidFromQueue = (queueTable) =>{
 
   const sqlQuery = `select person_uuid from etl.${queueTable} limit 1;`;
 
@@ -32,7 +32,7 @@ const getPatientUuidFromQueue = (queueTable) =>{
     const table = queueTables.alupe;
     return getPatientUuidFromQueue(table);
   };
-  const deletePatientFromQueue = (patientUuid,queueTable) => {
+  export const deletePatientFromQueue = (patientUuid,queueTable) => {
 
     const sqlQuery = `delete from etl.${queueTable} where person_uuid = '${patientUuid}';`;
 
@@ -40,7 +40,7 @@ const getPatientUuidFromQueue = (queueTable) =>{
      
   };
 
-  const addPatientToErrorQueue = (patientUuid)=>{
+  export const addPatientToErrorQueue = (patientUuid)=>{
 
     const sqlQuery = `replace into etl.eid_sync_queue_backup values ('${patientUuid}');`;
 
@@ -48,4 +48,3 @@ const getPatientUuidFromQueue = (queueTable) =>{
 
   }
 
-  export { getPatientFromAmpathQueue, getPatientFromAlupeQueue, deletePatientFromQueue, addPatientToErrorQueue }
