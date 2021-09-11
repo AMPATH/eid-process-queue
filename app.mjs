@@ -11,7 +11,7 @@ const start = ()=>{
   .then((results)=>{
      console.log('Results :', results);
   }).catch((error)=>{
-    console.log('Error :',error);
+    console.error('Error :',error);
   });
 
   
