@@ -54,7 +54,7 @@ export { db, server, queueTables, syncIntervalSettings}
 ```
 
 ## Requirements
-1. Node Version 16
+1. Node Version 16+
 2. Docker
 
 ## Getting started
@@ -62,6 +62,6 @@ export { db, server, queueTables, syncIntervalSettings}
 ```npm start```
 
 ## Building and deployment
-```docker build -f Dockerfile -t <account>/<repo>:<version> .```
+```docker build -f Dockerfile -t ampathke/eid-process-queue:<tag> .```
 
-```docker run -d -it --name <name>  <account>/<repo>:<version> ```
+```sudo docker run --name eid-process-queue -d --restart unless-stopped --mount type=bind,source="<path to conf folder>",target="/usr/src/app/conf" ampathke/eid-process-queue:<tag> .```
