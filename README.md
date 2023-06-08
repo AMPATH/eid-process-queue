@@ -1,8 +1,8 @@
 # EID Queue Processor
 
-This projet aims to handle patients stored in the lab sync queue.
+This project aims to handle patients stored in the lab sync queue.
 It takes the patients from the queue one at a time and sends an api request to the Ampath and Alupe systems.
-Its only task is to pick patients from the queue, and sync them at predefined intervals specified in the configuratio file
+Its only task is to pick patients from the queue, and sync them at predefined intervals specified in the configuration file
 
 ## Project set up
 
